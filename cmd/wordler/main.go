@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"strings"
 )
 
-var (
+const (
 	colorGreen = "\033[32m"
 	colorWhite = "\033[37m"
 	colorBlue  = "\033[34m"
@@ -40,14 +39,8 @@ func display(board [][]int32, correct []int32) {
 }
 
 func main() {
-	// Define wordle 5 letter words
-	words := []string{
-		"AUDIO",
-		"SALET",
-	}
-
-	// Choose a random word
-	word := words[rand.Intn(len(words))]
+	// Set word
+	word := grab_word()
 
 	// Create guessing arrays
 	guesses := [][]int32{
