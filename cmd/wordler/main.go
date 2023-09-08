@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -39,8 +40,23 @@ func display(board [][]int32, correct []int32) {
 }
 
 func main() {
+	// Set gamemode with cmd args
+	// Default Mode: play today's NYT wordle
+	// --random: play with random word
+	mode := "default"
+	for _, arg := range os.Args {
+		if arg == "--random" {
+			mode = "random"
+		}
+	}
+
 	// Set word
-	word := grab_word()
+	var word string
+	if mode == "default" {
+		word = grab_solution()
+	} else if mode == "random" {
+		word = grab_word()
+	}
 
 	// Create guessing arrays
 	guesses := [][]int32{
