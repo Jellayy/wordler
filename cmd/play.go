@@ -1,9 +1,14 @@
-package main
+/*
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+*/
+package cmd
 
 import (
 	"fmt"
-	"os"
 	"strings"
+
+	"github.com/jellayy/wordler/utils"
+	"github.com/spf13/cobra"
 )
 
 const (
@@ -11,6 +16,22 @@ const (
 	colorWhite = "\033[37m"
 	colorBlue  = "\033[34m"
 )
+
+var (
+	randomMode bool
+)
+
+// playCmd represents the play command
+var playCmd = &cobra.Command{
+	Use:   "play",
+	Short: "Play a game of Wordle in the command line",
+	Run:   play,
+}
+
+func init() {
+	rootCmd.AddCommand(playCmd)
+	playCmd.Flags().BoolVarP(&randomMode, "random", "r", false, "Play with a random word instead of today's NYT word")
+}
 
 // Check if char in list
 func charIn(a int32, list []int32) bool {
@@ -39,23 +60,13 @@ func display(board [][]int32, correct []int32) {
 	}
 }
 
-func main() {
-	// Set gamemode with cmd args
-	// Default Mode: play today's NYT wordle
-	// --random: play with random word
-	mode := "default"
-	for _, arg := range os.Args {
-		if arg == "--random" {
-			mode = "random"
-		}
-	}
-
+func play(cmd *cobra.Command, args []string) {
 	// Set word
 	var word string
-	if mode == "default" {
-		word = grab_solution()
-	} else if mode == "random" {
-		word = grab_word()
+	if randomMode {
+		word = utils.GrabWord()
+	} else {
+		word = utils.GrabSolution()
 	}
 
 	// Create guessing arrays

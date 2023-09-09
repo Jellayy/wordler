@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"context"
@@ -14,7 +14,7 @@ type NYTRespone struct {
 	Editor   string `json:"editor"`
 }
 
-func grab_solution() string {
+func GrabSolution() string {
 	// Query wordle solution from the NYT
 	var response NYTRespone
 	err := requests.
