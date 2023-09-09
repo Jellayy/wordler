@@ -11,12 +11,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const (
-	colorGreen = "\033[32m"
-	colorWhite = "\033[37m"
-	colorBlue  = "\033[34m"
-)
-
 var (
 	randomMode bool
 )
@@ -33,40 +27,16 @@ func init() {
 	playCmd.Flags().BoolVarP(&randomMode, "random", "r", false, "Play with a random word instead of today's NYT word")
 }
 
-// Check if char in list
-func charIn(a int32, list []int32) bool {
-	for _, b := range list {
-		if b == a {
-			return true
-		}
-	}
-	return false
-}
-
-// Display game board
-func display(board [][]int32, correct []int32) {
-	fmt.Print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-	for i := 0; i < len(board); i++ {
-		for j := 0; j < len(board[i]); j++ {
-			if board[i][j] == correct[j] {
-				fmt.Print(string(colorGreen) + string(board[i][j]) + string(colorWhite) + " ")
-			} else if charIn(board[i][j], correct) {
-				fmt.Print(string(colorBlue) + string(board[i][j]) + string(colorWhite) + " ")
-			} else {
-				fmt.Print(string(board[i][j]) + " ")
-			}
-		}
-		fmt.Print("\n")
-	}
-}
-
 func play(cmd *cobra.Command, args []string) {
 	// Set word
 	var word string
+	var gameMode string
 	if randomMode {
 		word = utils.GrabWord()
+		gameMode = "Random Mode"
 	} else {
 		word = utils.GrabSolution()
+		gameMode = "NYT Mode"
 	}
 
 	// Create guessing arrays
@@ -83,7 +53,7 @@ func play(cmd *cobra.Command, args []string) {
 		correct[i] = int32(word[i])
 	}
 
-	display(guesses, correct)
+	utils.DrawGame(0, 6, gameMode, guesses, correct)
 
 	// Game loop
 	victory := false
@@ -96,7 +66,7 @@ func play(cmd *cobra.Command, args []string) {
 			guesses[i][j] = int32(guess[j])
 		}
 
-		display(guesses, correct)
+		utils.DrawGame(i+1, 6, gameMode, guesses, correct)
 
 		if guess == word {
 			victory = true
@@ -105,8 +75,8 @@ func play(cmd *cobra.Command, args []string) {
 	}
 
 	if victory {
-		fmt.Println("Congrats!")
+		fmt.Println("\nCongrats!")
 	} else {
-		fmt.Println("Unlucky\nThe word was: " + word)
+		fmt.Println("\nUnlucky\nThe word was: " + word)
 	}
 }
