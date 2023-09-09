@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"context"
@@ -13,7 +13,7 @@ type DatamuseResponse struct {
 	Word  string `json:"word"`
 }
 
-func grab_word() string {
+func GrabWord() string {
 	// Query words from Datamuse
 	var response []DatamuseResponse
 	err := requests.
