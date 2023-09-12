@@ -12,6 +12,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	colorRed = "\033[31m"
+)
+
 var (
 	settings struct {
 		GameMode string
@@ -67,7 +71,8 @@ func play(cmd *cobra.Command, args []string) {
 		word = utils.GrabWord()
 		prettyGameMode = "Random Mode"
 	} else {
-		fmt.Print("ERROR: Gamemode not supported")
+		fmt.Println(colorRed + "ERROR: Gamemode not supported")
+		return
 	}
 
 	// Create guessing arrays
