@@ -8,6 +8,7 @@ const (
 	colorGreen = "\033[32m"
 	colorWhite = "\033[37m"
 	colorBlue  = "\033[34m"
+	colorRed   = "\033[31m"
 )
 
 // Check if char in list
@@ -31,12 +32,12 @@ func countRune(s string, r rune) int {
 	return count
 }
 
-func DrawGame(guesses int, maxGuesses int, gameMode string, gameBoard [][]int32, solution []int32) {
+func DrawGame(guesses int, maxGuesses int, gameMode string, gameBoard [][]int32, solution []int32, message string) {
 	var gameDisplay string
 	var spaceColor string
 
 	// Build game display header with guesses and gamemode
-	gameDisplay += "\nGuesses " + fmt.Sprint(guesses) + "/" + fmt.Sprint(maxGuesses) + " | " + gameMode + "\n\n"
+	gameDisplay += colorWhite + "Guesses " + fmt.Sprint(guesses) + "/" + fmt.Sprint(maxGuesses) + " | " + gameMode + "\n\n"
 
 	// Build game board rows
 	for row := 0; row < len(gameBoard); row++ {
@@ -59,8 +60,12 @@ func DrawGame(guesses int, maxGuesses int, gameMode string, gameBoard [][]int32,
 		gameDisplay += "\n"
 	}
 
-	// Clear & Build player input line
-	gameDisplay += "\n\033[2K" + colorBlue + ">" + colorWhite + " Your Guess: "
+	// Clear & Build player input line or message
+	if message != "" {
+		gameDisplay += "\n\033[2K" + colorBlue + "> " + colorRed + message + colorWhite + ": "
+	} else {
+		gameDisplay += "\n\033[2K" + colorBlue + "> " + colorWhite + "Your Guess: "
+	}
 
 	// Move cursor to redraw over existing game display if already drawn
 	if guesses > 0 {
