@@ -13,7 +13,7 @@ type DatamuseResponse struct {
 	Word  string `json:"word"`
 }
 
-func GrabWord() string {
+func GrabDatamuseWord() string {
 	// Query words from Datamuse
 	var response []DatamuseResponse
 	err := requests.

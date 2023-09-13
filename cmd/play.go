@@ -1,19 +1,11 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/jellayy/wordler/utils"
+	"github.com/jellayy/wordler/game"
 	"github.com/spf13/cobra"
-)
-
-const (
-	colorRed = "\033[31m"
 )
 
 var (
@@ -61,76 +53,26 @@ func play(cmd *cobra.Command, args []string) {
 		}
 	}
 
-	// Set word & gamemode
-	var word string
-	var prettyGameMode string
-	if settings.GameMode == "nytdaily" {
-		word = utils.GrabSolution()
-		prettyGameMode = "NYT Daily Mode"
-	} else if settings.GameMode == "random" {
-		word = utils.GrabWord()
-		prettyGameMode = "Random Mode"
-	} else {
-		fmt.Println(colorRed + "ERROR: Gamemode not supported")
+	// Create game
+	gameState, err := game.New(settings.GameMode)
+	if err != nil {
+		print(err)
 		return
 	}
 
-	// Create guessing arrays
-	guesses := [][]int32{
-		{'_', '_', '_', '_', '_'},
-		{'_', '_', '_', '_', '_'},
-		{'_', '_', '_', '_', '_'},
-		{'_', '_', '_', '_', '_'},
-		{'_', '_', '_', '_', '_'},
-		{'_', '_', '_', '_', '_'},
-	}
-	correct := []int32{'_', '_', '_', '_', '_'}
-	for i := 0; i < 5; i++ {
-		correct[i] = int32(word[i])
-	}
-
-	utils.DrawGame(0, 6, prettyGameMode, guesses, correct, "")
-
-	// Game loop
-	victory := false
-	numGuesses := 0
-	for numGuesses < 6 {
+	// Run game
+	gameState.DrawGame()
+	for !gameState.Completed {
 		var guess string
-		message := ""
-		validGuess := true
-
-		// Read guess
 		fmt.Scan(&guess)
-		guess = strings.ToUpper(guess)
-
-		// Validate guess
-		if len(guess) < 5 {
-			message = "Not enough letters"
-			validGuess = false
-		} else if len(guess) > 5 {
-			message = "Too many letters"
-			validGuess = false
-		}
-
-		// Commit guess if valid
-		if validGuess {
-			for j := 0; j < len(guess); j++ {
-				guesses[numGuesses][j] = int32(guess[j])
-			}
-			numGuesses++
-		}
-
-		utils.DrawGame(numGuesses, 6, prettyGameMode, guesses, correct, message)
-
-		if guess == word {
-			victory = true
-			break
-		}
+		gameState.ProcessGuess(guess)
+		gameState.DrawGame()
 	}
 
-	if victory {
+	// Finish game
+	if gameState.Victory {
 		fmt.Println("\nCongrats!")
 	} else {
-		fmt.Println("\nUnlucky\nThe word was: " + word)
+		fmt.Println("\nUnlucky\nThe word was: " + gameState.AnswerStr)
 	}
 }

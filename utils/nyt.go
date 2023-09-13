@@ -14,7 +14,7 @@ type NYTRespone struct {
 	Editor   string `json:"editor"`
 }
 
-func GrabSolution() string {
+func GrabNYTWord() string {
 	// Query wordle solution from the NYT
 	var response NYTRespone
 	err := requests.
