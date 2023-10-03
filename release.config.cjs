@@ -16,10 +16,10 @@ module.exports = {
             '@semantic-release/github',
             {
                 "assets": [
-                    {"path": "release/wordler-windows-amd64.exe", "label": "Windows 64bit"},
-                    {"path": "release/wordler-darwin-amd64", "label": "MacOS 64bit Intel"},
-                    {"path": "release/wordler-darwin-arm64", "label": "MacOS 64bit Apple Silion"},
-                    {"path": "release/wordler-linux-amd64", "label": "Linux 64bit"}
+                    {"path": "release/wordler-windows-amd64.exe", "label": "wordler-${nextRelease.version}-windows-amd64.exe"},
+                    {"path": "release/wordler-darwin-amd64", "label": "wordler-${nextRelease.version}-darwin-amd64"},
+                    {"path": "release/wordler-darwin-arm64", "label": "wordler-${nextRelease.version}-darwin-arm64"},
+                    {"path": "release/wordler-linux-amd64", "label": "wordler-${nextRelease.version}-linux-amd64"}
                 ]
             }
         ]
