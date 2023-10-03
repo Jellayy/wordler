@@ -36,6 +36,12 @@ jobs:
       
       - name: Build App Linux
         run: GOOS=linux GOARCH=amd64 go build -o release/wordler-linux-amd64 main.go
+      
+      - name: Upload Builds
+        uses: actions/upload-artifact@v3
+        with:
+          name: multiplatform-builds
+          path: release/
 
       - name: Semantic Release
         run: npx semantic-release
