@@ -1,5 +1,8 @@
-const config = {
-    branches: ['master'],
+/**
+ * @type {import('semantic-release').GlobalConfig}
+ */
+module.exports = {
+    branches: ["master"],
     plugins: [
         '@semantic-release/commit-analyzer',
         '@semantic-release/release-notes-generator',
@@ -16,5 +19,3 @@ const config = {
         }
     ]
 };
-
-module.exports = config;
