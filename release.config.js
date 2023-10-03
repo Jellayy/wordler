@@ -8,10 +8,10 @@ const config = {
         },
         '@semantic-release/github', {
             "assets": [
-                {
-                    "path": "releases/*",
-                    "label": "Release ${nextRelease.version}"
-                }
+                {"path": "release/wordler-windows-amd64.exe", "label": "Windows 64bit"},
+                {"path": "release/wordler-darwin-amd64", "label": "MacOS 64bit Intel"},
+                {"path": "release/wordler-darwin-arm64", "label": "MacOS 64bit Apple Silion"},
+                {"path": "release/wordler-linux-amd64", "label": "Linux 64bit"}
             ]
         }
     ]
