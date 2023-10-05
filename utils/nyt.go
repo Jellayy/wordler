@@ -3,29 +3,28 @@ package utils
 import (
 	"context"
 	"strings"
-	"time"
 
 	"github.com/carlmjohnson/requests"
 )
 
 type NYTRespone struct {
-	Id       int    `json:"id"`
-	Solution string `json:"solution"`
-	Editor   string `json:"editor"`
+	Id     int    `json:"id"`
+	Word   string `json:"solution"`
+	Editor string `json:"editor"`
 }
 
-func GrabNYTWord() string {
+func GrabNYTWord(date string) (NYTRespone, error) {
 	// Query wordle solution from the NYT
 	var response NYTRespone
 	err := requests.
-		URL("https://www.nytimes.com/svc/wordle/v2/" + time.Now().Format("2006-01-02") + ".json").
+		URL("https://www.nytimes.com/svc/wordle/v2/" + date + ".json").
 		ToJSON(&response).
 		Fetch(context.Background())
 	if err != nil {
-		return "ERROR"
+		return response, err
 	}
 
-	// Return just the word for now
-	// TODO: Return more data about the solution
-	return strings.ToUpper(response.Solution)
+	response.Word = strings.ToUpper(response.Word)
+
+	return response, nil
 }
