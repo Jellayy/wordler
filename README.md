@@ -57,6 +57,36 @@ Flags:
   -h, --help              help for play
 ```
 
+### Commands:
+
+- #### `wordler play`
+
+Play a game of Wordle in the command line
+
+Example:
+```bash
+wordler play -g nytdaily
+```
+
+Arguments:
+| Argument           | Optional? | Type   | Default  | Description                                          |
+| ------------------ | --------- | ------ | -------- | ---------------------------------------------------- |
+| `--gamemode`, `-g` | True      | string | nytdaily | Choose gamemode, available options: nytdaily, random |
+
+- #### `wordler spoil`
+
+Spoil the answer to the NYT Wordle
+
+Example:
+```bash
+wordler spoil -d 2023-08-04
+```
+
+Arguments:
+| Argument       | Optional? | Type   | Default | Description                                 |
+| -------------- | --------- | ------ | ------- | ------------------------------------------- |
+| `--date`, `-d` | True      | string | (today) | Date of Wordle to spoil, format: YYYY-MM-DD |
+
 ## Extra Info
 
 The New York Times' wordle wordset is based on the [CSW19 Set](https://en.wikipedia.org/wiki/Collins_Scrabble_Words) with some additions totaling 14,855 words compared to the 12,972 5-letter words that are in the original dataset. The New York Times' dataset was pulled from the wordle source on 9/11/2023 and can be found at `datasets/NYT.csv`
