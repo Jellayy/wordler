@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Jellayy/wordler/compare/v1.0.0...v1.1.0) (2023-10-05)
+
+
+### Features
+
+* spoil command - sources answers for the NYT wordle ([8cdbd92](https://github.com/Jellayy/wordler/commit/8cdbd92c0936bfdb069886455121f2281155e012))
+
 # 1.0.0 (2023-10-04)
 
 
