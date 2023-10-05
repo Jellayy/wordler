@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/jellayy/wordler/utils"
 )
@@ -51,8 +52,12 @@ func New(gameMode string) (game, error) {
 
 	if gameMode == "nytdaily" {
 		// nytdaily - NYT Daily Mode - Plays today's NYT wordle, validates with NYT dataset
+		solution, err := utils.GrabNYTWord(time.Now().Format("2006-01-02"))
+		if err != nil {
+			return newGame, err
+		}
+		newGame.AnswerStr = solution.Word
 		newGame.prettyGameMode = "NYT Daily Mode"
-		newGame.AnswerStr = utils.GrabNYTWord()
 	} else if gameMode == "random" {
 		// random - Random Mode - Plays with random datamuse word, no dataset validation
 		newGame.prettyGameMode = "Random Mode"
